@@ -4,6 +4,7 @@
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 			<span class="iconfont icon-denglu color"></span>
+			<button type="primary" @click="handleTurnPage">去测试页面</button>
 		</view>
 	</view>
 </template>
@@ -19,7 +20,10 @@
 
 		},
 		methods: {
-
+			handleTurnPage() {
+				uni.$push('/pages/test/Test')
+				// uni.navigateTo('/pages/test/Test')
+			}
 		}
 	}
 </script>
