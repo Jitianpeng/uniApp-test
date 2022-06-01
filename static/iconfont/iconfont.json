@@ -1,0 +1,16 @@
+{
+  "id": "3444097",
+  "name": "plm-app",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "美以为然 app 图片选款项目",
+  "glyphs": [
+    {
+      "icon_id": "1010084",
+      "name": "登录",
+      "font_class": "denglu",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    }
+  ]
+}
