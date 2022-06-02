@@ -18,11 +18,13 @@ function routerBeforeEach(option = '/pages/index/index', type = 'navigateTo') {
 	}else if(to.url !== '/pages/login/Login' && !userInfo) { // 用户未登陆
 		uni.showToast({
 			title: '请重新登陆',
-			duration: 2000,
+			duration: 100,
 			success: () => {
-				uni.reLaunch({
-					url: '/pages/login/Login'
-				})
+				setTimeout(() => {
+					uni.reLaunch({
+						url: '/pages/login/Login'
+					})
+				}, 600)
 			}
 		})
 	} else {

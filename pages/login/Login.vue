@@ -8,14 +8,23 @@
 </template>
 
 <script setup>
+	import { Login } from '@/services/modules/user'
+	import { mutationMapper } from '@/utils/useMapper'
+	const { setUser } = mutationMapper('user',['setUser'])
+	
 	const handleLogin = () => {
-		const userInfo = {
-			name: '天月飞鸟',
-			age: '18'
+		const params = {
+			busId: 1,
+			password: "4ff0116e44e3ecf691dead3c7a1a8bd8af720b9c860df88817645c4577e7a665",
+			username: "admin"
 		}
-		// 存储用户信息
-		// uni.setStorageSync('userInfo', JSON.stringify(userInfo))
-		uni.$push('/pages/index/index')
+		Login(params).then(res => {
+			if(res.success) {
+				const userInfo = res.data.user
+				setUser(userInfo)
+				uni.$push('/pages/index/index')
+			}
+		})
 	}
 </script>
 

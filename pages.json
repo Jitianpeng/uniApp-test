@@ -3,19 +3,19 @@
 		{
 			"path": "pages/login/Login",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "登录"
 			}
 		},
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
 			"path": "pages/test/Test",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "测试页面"
 			}
 		}
 	],

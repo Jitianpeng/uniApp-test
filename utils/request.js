@@ -1,4 +1,4 @@
-import { requestInterceptors, responseInterceptors } from './http-interceptors'
+// import { requestInterceptors, responseInterceptors } from './http-interceptors'
 // 请求类型
 const METHOD = {
     GET: 'GET',
@@ -7,23 +7,38 @@ const METHOD = {
     DELETE: 'DELETE',
 }
 
+// 请求默认路径
+const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://172.16.238.50:8080'
+
 // 请求拦截器
-const requestInterceptor = async() => {
+async function requestInterceptor(option) {
+	const { url } = option
 	const token =  uni.getStorageSync('token')
-	if(!token) {
+	if(!token && url.indexOf('login') === -1) {
 		uni.showToast({
 			title: '认证信息已过期，请重新登录',
-			duration: 1000
+			duration: 1000,
+			success: () => {
+				setTimeout(() => {
+					uni.$push('/pages/login/Login')
+				}, 600)
+			}
 		})
-		// uni.reLaunch({
-		// 	urk: '/login',
-		// 	animationType: 'pop-in',
-		// 	animationDuration: 300
-		// })
-		return Promise.reject()
-	} else {
-		return Promise.resolve()
 	}
+	return option
+}
+
+// 响应拦截
+function responseInterceptor(res, resolve) {
+	resolve(res.data)
+}
+
+// 请求失败拦截
+function errorInterceptor(err, reject) {
+	uni.showToast({
+		title: '请求失败！'
+	})
+	reject(err)
 }
 
 // 默认请求配置
@@ -43,21 +58,26 @@ const defaultRequestConfig = {
 	// complete: '', // Function 接口调用结束的回调函数（调用成功、失败都会执行）
 }
 
-async function request(url, method, params, config) {
+async function request(url, method, params, config = {}) {
 	const options = {
 		... defaultRequestConfig,
-		url,
+		url: baseUrl + url,
 		method,
 		data: params,
 		header: Object.assign(defaultRequestConfig.header, config)
 	}
 	// 请求拦截器
-	requestInterceptors.resolve(() => {
-		new Promise((resolve, reject) => {
-			uni.request(options)
-			.then(res => {
-				
-			})
-		})
+	await requestInterceptor(options)
+	
+	return new Promise((resolve, reject) => {
+		uni.request(options)
+		// 响应拦截
+		.then(res => responseInterceptor(res, resolve))
+		.catch(err => errorInterceptor(err, reject))
 	})
+}
+
+export {
+	request,
+	METHOD
 }

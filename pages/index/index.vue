@@ -22,7 +22,6 @@
 		methods: {
 			handleTurnPage() {
 				uni.$push('/pages/test/Test')
-				// uni.navigateTo('/pages/test/Test')
 			}
 		}
 	}
